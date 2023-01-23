@@ -11,6 +11,153 @@ const breeds = [
   "african",
   "airedale",
   "akita",
+  "appenzeller",
+  "australian-shepherd",
+  "basenji",
+  "beagle",
+  "bluetick",
+  "borzoi",
+  "bouvier",
+  "boxer",
+  "brabancon",
+  "briard",
+  "buhund-norwegian",
+  "bulldog-boston",
+  "bulldog-english",
+  "bulldog-french",
+  "bullterrier-staffordshire",
+  "cattledog-australian",
+  "chihuahua",
+  "chow",
+  "clumber",
+  "cockapoo",
+  "collie-border",
+  "coonhound",
+  "corgi-cardigan",
+  "cotondetulear",
+  "dachshund",
+  "dalmatian",
+  "dane-great",
+  "deerhound-scottish",
+  "dhole",
+  "dingo",
+  "doberman",
+  "elkhound-norwegian",
+  "entlebucher",
+  "eskimo",
+  "finnish-lapphund",
+  "frise-bichon",
+  "germanshepherd",
+  "greyhound-italian",
+  "groenendael",
+  "havanese",
+  "hound-afghan",
+  "hound-basset",
+  "hound-blood",
+  "hound-english",
+  "hound-ibizan",
+  "hound-plott",
+  "hound-walker",
+  "husky",
+  "keeshond",
+  "kelpie",
+  "komondor",
+  "kuvasz",
+  "labradoodle",
+  "labrador",
+  "leonberg",
+  "lhasa",
+  "malamute",
+  "malinois",
+  "maltese",
+  "mastiff-bull",
+  "mastiff-english",
+  "mastiff-tibetan",
+  "mexicanhairless",
+  "mix",
+  "mountain-bernese",
+  "mountain-swiss",
+  "newfoundland",
+  "otterhound",
+  "ovcharka-caucasian",
+  "papillon",
+  "pekinese",
+  "pembroke",
+  "pinscher-miniature",
+  "pitbull",
+  "pointer-german",
+  "pointer-germanlonghair",
+  "pomeranian",
+  "poodle-medium",
+  "poodle-miniature",
+  "poodle-standard",
+  "poodle-toy",
+  "pug",
+  "puggle",
+  "pyrenees",
+  "redbone",
+  "retriever-chesapeake",
+  "retriever-curly",
+  "retriever-flatcoated",
+  "retriever-golden",
+  "ridgeback-rhodesian",
+  "rottweiler",
+  "saluki",
+  "samoyed",
+  "schipperke",
+  "schnauzer-giant",
+  "schnauzer-miniature",
+  "segugio-italian",
+  "setter-english",
+  "setter-gordon",
+  "setter-irish",
+  "sharpei",
+  "sheepdog-english",
+  "sheepdog-shetland",
+  "shiba",
+  "shihtzu",
+  "spaniel-blenheim",
+  "spaniel-brittany",
+  "spaniel-cocker",
+  "spaniel-irish",
+  "spaniel-japanese",
+  "spaniel-sussex",
+  "spaniel-welsh",
+  "spitz-japanese",
+  "spaniel-sussex",
+  "spaniel-welsh",
+  "spitz-japanese",
+  "springer-english",
+  "stbernard",
+  "terrier-american",
+  "terrier-australian",
+  "terrier-bedlington",
+  "terrier-border",
+  "terrier-cairn",
+  "terrier-dandie",
+  "terrier-fox",
+  "terrier-irish",
+  "terrier-kerryblue",
+  "terrier-lakeland",
+  "terrier-norfolk",
+  "terrier-norwich",
+  "terrier-patterdale",
+  "terrier-russell",
+  "terrier-scottish",
+  "terrier-sealyham",
+  "terrier-silky",
+  "terrier-tibetan",
+  "terrier-toy",
+  "terrier-welsh",
+  "terrier-westhighland",
+  "terrier-wheaten",
+  "terrier-yorkshire",
+  "tervuren",
+  "vizsla",
+  "waterdog-spanish",
+  "weimaraner",
+  "whippet",
+  "wolfhound-irish"
 ];
 
 
@@ -18,6 +165,7 @@ const breeds = [
 
 function App() {
 
+  //state variables
   const [randomDogImage, setRandomDogImage] = useState("https://via.placeholder.com/150");
   const [ratedDogImage, setRatedDogImage] = useState();
   const [rating, setRating] = useState("");
@@ -26,15 +174,20 @@ function App() {
   const [selectedRating, setSelectedRating] = useState(null);
   const [selectedOption, setSelectedOption] = useState(null);
 
-
+// useEffect hook which runs at render and every refresh
   useEffect(() => {
     let fetchData;
+
+    //if a breed is selected, fetchData set to async function which calls getBreed
     if (breed) {
       fetchData = async () => {
         const randomDog = await getBreed(breed)();
         setRandomDogImage(randomDog);
       }
-    } else {
+    } 
+    
+    // Else, fetchData set to async function which calls getRandom function
+    else {
       fetchData = async () => {
         const randomDog = await getRandom()();
         setRandomDogImage(randomDog);
@@ -44,20 +197,23 @@ function App() {
   }, [breed]);
 
   function handleSubmit(e) {
-    e.preventDefault();
 
+    // prevents page from being refreshed 
+    e.preventDefault();
+    // message displayed to user if rating is not selected
     if (!rating) {
       alert("Please select a rating!");
       return;
     }
 
     let dogUrl = randomDogImage;
-
+    // add object to setRatingsHistory array with url of dog image, the rating and the breed. 
     setRatingsHistory([...ratingsHistory, { url: dogUrl, rating, breed }]);
     setRatedDogImage(dogUrl);
+    //clear values
     setRating('');
     setSelectedRating(null);
-    // update random dog image
+    // update random dog image by fetching data with async function.
     const fetchData = async () => {
       let newRandomDog;
       if (breed) {
@@ -70,9 +226,12 @@ function App() {
     fetchData();
   }
 
-
+// Function which sorts the dogs rated by user
   function handleSort(sortType) {
+    //copies ratingsHistory array to a new array
     const sortedRatings = [...ratingsHistory];
+
+    //use built in sort function to sort the array accordingly
     if (sortType === 'lowest') {
       sortedRatings.sort((a, b) => a.rating - b.rating);
     } else if (sortType === 'highest') {
@@ -82,19 +241,19 @@ function App() {
     }
     setRatingsHistory(sortedRatings);
   }
-
+  // callback for onChange event of Select "breed" element. Takes information from event Object.
   const handleChange = (event) => {
     setBreed(event.target.value);
   }
-
+// / callback for onChange event of Select "sort by:" element. Takes information from event Object.
   const handleOptionChange = (event) => {
     setSelectedOption(event.target.value);
+    handleSort(event.target.value);
     
   }
 
-
+// JSX
   return (
-    <ThemeProvider theme={theme}>
       <div className="App">
         <h1 className="title">Rate My Dog</h1>
         <form onSubmit={(e) => handleSubmit(e, rating)}>
@@ -147,20 +306,21 @@ function App() {
               <MenuItem value="alphabetical">Alphabetical</MenuItem>
             </Select>
           </label>
+          {/* Create an unordered list for each item in ratingsHistory arry */}
           <ul>
+            {/* use the .map() method to iterate through the array */}
             {ratingsHistory.map(function (item) {
               return (
                 <li>
                   <img className="dog-history" src={item.url} alt="Rated Dog" />
                   <p>Rating: {item.rating}</p>
-                  <p>Breed: {item.breed ? item.breed : "Random Dog"}</p>
+                  <p>Breed: {item.breed ? item.breed : "Random Dog"}</p> 
                 </li>
               )
             })}
           </ul>
         </div>
       </div>
-    </ThemeProvider>
   );
 }
 
