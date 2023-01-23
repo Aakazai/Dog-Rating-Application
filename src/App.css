@@ -13,6 +13,66 @@
   }
 }
 
+
+
+.dog-image {
+  width: 500px;
+  height: 500px;
+}
+
+.selected {
+  background-color: #880808;
+}
+
+.title {
+  font-size: 50px;
+  font-weight: bold;
+  text-align: center;
+  color: #333;
+  margin-top: 50px;
+  }
+
+.wider-select {
+    width: 100px; /* or any desired width */
+  }
+.dog-history {
+  width: 300px;
+  height: 300px;
+}
+
+.big-button {
+  width: 100px;
+  height: 50px;
+  background-color: blue; /* change color to your liking */
+  color: white; /* change text color to your liking */
+  font-size: 20px; /* increase font size */
+  padding: 10px 20px; /* increase padding */
+  border-radius: 10px; /* add rounded edges */
+  box-shadow: 2px 2px 5px rgba(0,0,0,0.5); /* add a shadow */
+  transition: all 0.2s ease-in-out; /* add transition for hover effect */
+}
+
+.big-button:hover {
+  transform: scale(1.1); /* increase button size on hover */
+  background-color: darkblue; /* change hover color to your liking */
+}
+
+.rating-label {
+  display: block; /* This will display the label on top of the button group */
+  font-size: 1.2em; /* This will increase the font size of the label */
+  margin-bottom: 10px; /* This will add margin below the label */
+}
+
+select::-ms-expand {
+  display: none;
+}
+
+select::-webkit-calendar-picker-indicator {
+  display: none;
+}
+
+
+
 .App-header {
   background-color: #282c34;
   min-height: 100vh;
